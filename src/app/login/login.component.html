@@ -1,0 +1,8 @@
+<div *ngIf="!authService.isAuthenticated">
+    <p>Login</p>
+    <button (click)="login()">Login</button>
+</div>
+    <div *ngIf="authService.isAuthenticated">
+    <p>Você está logado!</p>
+    <button (click)="logout()">Logout</button>
+</div>
