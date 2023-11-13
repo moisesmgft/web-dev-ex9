@@ -1,27 +1,49 @@
-# AngularInjection
+# Exemplo de Injection: Sistema de Login
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+## Funcionamento
 
-## Development server
+![](assets/ex9.gif)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Explicação
 
-## Code scaffolding
+A injeção de dependência foi feita na seguinte parte do código.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```typescript
+// auth.service.ts
+import { Injectable } from '@angular/core';
 
-## Build
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  isAuthenticated = false;
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+  authenticate() {
+    this.isAuthenticated = true;
+  }
 
-## Running unit tests
+  logout() {
+    this.isAuthenticated = false;
+  }
+}
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+O serviço AuthService será injetado em toda a aplicação e estará disponível como um singleton.
 
-## Running end-to-end tests
+### Uso em LoginComponent
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```typescript
+export class LoginComponent {
+  constructor(public authService: AuthService) {}
 
-## Further help
+  login() {
+    this.authService.authenticate();
+  }
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+  logout() {
+    this.authService.logout();
+  }
+}
+```
+LoginCOmponent recebe uma instância do serviço por meio do construtor.
+
